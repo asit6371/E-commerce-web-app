@@ -1,0 +1,97 @@
+1️⃣ Understand Requirements
+
+List all features your E-commerce app should have:
+
+User registration/login (JWT authentication)
+
+Product catalog (CRUD for products)
+
+Shopping cart & checkout
+
+Order history & tracking
+
+Admin panel for managing users/products/orders
+
+Optional: Payment gateway integration
+
+2️⃣ High-Level System Design
+
+Decide your architecture:
+
+Monolithic (start simple) → all backend in Spring Boot
+
+Microservices (later, if adding Docker/K8s)
+
+Identify main components:
+
+User Service
+
+Product Service
+
+Cart & Order Service
+
+Admin Service
+
+Authentication & Authorization Service
+
+3️⃣ Database Design
+
+Choose database: MySQL (relational) or MongoDB (NoSQL)
+
+Create ER diagram / tables:
+
+Users: id, name, email, password, role
+
+Products: id, name, price, stock, description
+
+Orders: id, user_id, total_amount, order_status, created_at
+
+Cart: user_id, product_id, quantity
+
+You can sketch this on paper or use tools like dbdiagram.io or draw.io.
+
+4️⃣ API Design
+
+Plan your REST APIs:
+
+POST /api/users/register → Register user
+
+POST /api/users/login → Login & JWT token
+
+GET /api/products → List products
+
+POST /api/products → Add product (admin)
+
+POST /api/cart → Add to cart
+
+POST /api/orders → Place order
+
+Document them in a table or Postman collection.
+
+5️⃣ UI / Frontend Design
+
+Sketch basic wireframes for:
+
+Home page (product listing)
+
+Product details page
+
+Cart & checkout page
+
+User profile / order history
+
+Admin dashboard
+
+You can use Figma, Adobe XD, or even paper sketches.
+
+6️⃣ Technology & Tools Planning
+
+Backend: Spring Boot, Spring Security, Spring Data JPA
+
+Database: MySQL/MongoDB
+
+Frontend: React / Angular / Thymeleaf (optional)
+
+DevOps: Docker, Kubernetes, GitHub Actions (CI/CD)
+
+Cloud: AWS / Azure / GCP

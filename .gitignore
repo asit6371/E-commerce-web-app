@@ -11,6 +11,12 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# Spring Boot configuration files
+application.yml
+application-dev.yml
+application-prod.yml
+
+
 # Package Files #
 *.jar
 *.war
