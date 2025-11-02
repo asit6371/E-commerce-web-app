@@ -1,18 +1,8 @@
 package com.ecommerce.dto;
 
-public class UserRequestDTO {
-
-    private String name;
+public class AuthRequestDto {
     private String email;
     private String password;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getEmail() {
         return email;

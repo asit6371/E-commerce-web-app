@@ -1,19 +1,19 @@
 package com.ecommerce.dto;
 
 
-public class AuthResponse {
+public class AuthResponseDto {
     private String token;
     private String message;
 
-    public AuthResponse() {
+    public AuthResponseDto() {
     }
 
-    public AuthResponse(String token, String message) {
+    public AuthResponseDto(String token, String message) {
         this.token = token;
         this.message = message;
     }
 
-    public AuthResponse(String token) {
+    public AuthResponseDto(String token) {
         this.token = token;
     }
 

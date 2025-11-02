@@ -1,6 +1,9 @@
 package com.ecommerce.service;
 
-import com.ecommerce.dto.UserRequestDTO;
+import com.ecommerce.dto.UserProfileResponseDto;
+import com.ecommerce.dto.UserRequestDto;
+import com.ecommerce.exception.EmailAndPasswordNotFoundException;
+import com.ecommerce.exception.EmailNotFoundException;
 import com.ecommerce.model.User;
 import com.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +20,7 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
 
-    public User registerUser(UserRequestDTO dto) {
+    public User registerUser(UserRequestDto dto) {
         User user = new User();
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
@@ -28,9 +31,9 @@ public class UserService {
     }
 
 
-    public User loginUser(UserRequestDTO dto) {
+    public User loginUser(UserRequestDto dto) throws EmailAndPasswordNotFoundException {
         User user = userRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+                .orElseThrow(() -> new EmailAndPasswordNotFoundException("Invalid email or password"));
 
         if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid email or password");
@@ -39,6 +42,17 @@ public class UserService {
         return user;
     }
 
+    public UserProfileResponseDto getUserProfile(String email) throws EmailNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EmailNotFoundException("Invalid Email!"));
+
+        UserProfileResponseDto logged = new UserProfileResponseDto();
+        logged.setName(user.getName());
+        logged.setEmail(user.getEmail());
+        logged.setRole(user.getRole());
+
+        return logged;
+    }
 
 
 }
