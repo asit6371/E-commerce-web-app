@@ -1,8 +1,8 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.config.JwtUtil;
-import com.ecommerce.dto.AuthRequest;
-import com.ecommerce.dto.AuthResponse;
+import com.ecommerce.dto.AuthRequestDto;
+import com.ecommerce.dto.AuthResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,13 +30,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest req) {
+    public ResponseEntity<?> login(@RequestBody AuthRequestDto req) {
         try {
             Authentication auth = authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
             UserDetails userDetails = (UserDetails) auth.getPrincipal();
             String token = jwtUtil.generateToken(userDetails);
-            return ResponseEntity.ok(new AuthResponse(token));
+            return ResponseEntity.ok(new AuthResponseDto(token));
         } catch (AuthenticationException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }

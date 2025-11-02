@@ -1,6 +1,7 @@
 package com.ecommerce;
 
-import com.ecommerce.dto.UserRequestDTO;
+import com.ecommerce.dto.UserRequestDto;
+import com.ecommerce.exception.EmailAndPasswordNotFoundException;
 import com.ecommerce.model.User;
 import com.ecommerce.service.UserService;
 import org.junit.jupiter.api.Assertions;
@@ -20,7 +21,7 @@ public class UserServiceTest {
 
     @Test
     void testRegisterUser() {
-        UserRequestDTO dto = new UserRequestDTO();
+        UserRequestDto dto = new UserRequestDto();
         dto.setName("Kevin");
         dto.setEmail("kevin@example.com");
         dto.setPassword("1234");
@@ -34,8 +35,8 @@ public class UserServiceTest {
     }
 
     @Test
-    void testLoginUser() {
-        UserRequestDTO dto = new UserRequestDTO();
+    void testLoginUser() throws EmailAndPasswordNotFoundException {
+        UserRequestDto dto = new UserRequestDto();
         dto.setEmail("kevin@example.com");
         dto.setPassword("1234");
 

@@ -1,8 +1,8 @@
 package com.ecommerce;
 
 
-import com.ecommerce.dto.AuthRequest;
-import com.ecommerce.dto.UserRequestDTO;
+import com.ecommerce.dto.AuthRequestDto;
+import com.ecommerce.dto.UserRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ class AuthControllerTest {
 
     @Test
     void testRegisterUser() throws Exception {
-        UserRequestDTO dto = new UserRequestDTO();
+        UserRequestDto dto = new UserRequestDto();
         dto.setName("SpringUser");
         dto.setEmail("springuser@example.com");
         dto.setPassword("12345");
@@ -42,7 +42,7 @@ class AuthControllerTest {
     @Test
     void testLoginUser() throws Exception {
         // First register the user
-        UserRequestDTO registerDto = new UserRequestDTO();
+        UserRequestDto registerDto = new UserRequestDto();
         registerDto.setName("Cathy");
         registerDto.setEmail("cathy@example.com");
         registerDto.setPassword("cathy1234");
@@ -53,7 +53,7 @@ class AuthControllerTest {
                 .andExpect(status().isOk());
 
         // Then login
-        AuthRequest loginRequest = new AuthRequest();
+        AuthRequestDto loginRequest = new AuthRequestDto();
         loginRequest.setEmail("cathy@example.com");
         loginRequest.setPassword("cathy1234");
 
@@ -66,7 +66,7 @@ class AuthControllerTest {
 
     @Test
     void testLoginWithInvalidCredentials() throws Exception {
-        AuthRequest invalidLogin = new AuthRequest();
+        AuthRequestDto invalidLogin = new AuthRequestDto();
         invalidLogin.setEmail("unknown@example.com");
         invalidLogin.setPassword("wrong");
 
