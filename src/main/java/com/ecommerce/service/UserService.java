@@ -7,6 +7,7 @@ import com.ecommerce.exception.EmailNotFoundException;
 import com.ecommerce.model.User;
 import com.ecommerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -54,5 +55,26 @@ public class UserService {
         return logged;
     }
 
+    public boolean updateUserProfile(String email, UserRequestDto req) throws EmailNotFoundException {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EmailNotFoundException("Email not found!"));
+
+        if (req.getName() != null && !req.getName().isBlank()) {
+            user.setName(req.getName());
+        }
+
+        if (req.getEmail() != null && !req.getEmail().isBlank()) {
+            user.setEmail(req.getEmail());
+        }
+
+        if (req.getPassword() != null && !req.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(req.getPassword()));
+        }
+
+        userRepository.save(user);
+
+        return true;
+    }
 
 }

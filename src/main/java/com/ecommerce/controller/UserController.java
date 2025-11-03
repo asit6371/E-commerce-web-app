@@ -4,6 +4,7 @@ package com.ecommerce.controller;
 import com.ecommerce.dto.UserProfileResponseDto;
 import com.ecommerce.dto.UserRequestDto;
 import com.ecommerce.dto.UserResponseDto;
+import com.ecommerce.exception.EmailAndPasswordNotFoundException;
 import com.ecommerce.exception.EmailNotFoundException;
 import com.ecommerce.model.User;
 import com.ecommerce.service.UserService;
@@ -38,6 +39,14 @@ public class UserController {
         UserProfileResponseDto profile = userService.getUserProfile(email);
 
         return ResponseEntity.ok(profile);
+    }
+
+    @PatchMapping("/profile")
+    public ResponseEntity<String> updateProfile(@RequestBody UserRequestDto req) throws EmailNotFoundException {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        userService.updateUserProfile(email, req);
+
+        return ResponseEntity.ok("Profile updated successfully!");
     }
 
 }
