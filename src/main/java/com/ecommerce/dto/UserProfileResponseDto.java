@@ -28,4 +28,5 @@ public class UserProfileResponseDto {
     public void setRole(String role) {
         this.role = role;
     }
+
 }
