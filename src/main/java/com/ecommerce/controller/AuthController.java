@@ -3,6 +3,7 @@ package com.ecommerce.controller;
 import com.ecommerce.config.JwtUtil;
 import com.ecommerce.dto.AuthRequestDto;
 import com.ecommerce.dto.AuthResponseDto;
+import com.ecommerce.service.PasswordService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,10 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -22,11 +20,13 @@ public class AuthController {
     private final AuthenticationManager authManager;
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
+    private final PasswordService passwordService;
 
-    public AuthController(AuthenticationManager authManager, JwtUtil jwtUtil, UserDetailsService uds) {
+    public AuthController(AuthenticationManager authManager, JwtUtil jwtUtil, UserDetailsService uds, PasswordService passwordService) {
         this.authManager = authManager;
         this.jwtUtil = jwtUtil;
         this.userDetailsService = uds;
+        this.passwordService = passwordService;
     }
 
     @PostMapping("/login")
@@ -41,4 +41,18 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
+
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
+        return passwordService.forgotPassword(email);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam String token,
+                                                @RequestParam String newPassword,
+                                                @RequestParam String confirmPassword) {
+        return passwordService.resetPassword(token, newPassword, confirmPassword);
+    }
+
 }
