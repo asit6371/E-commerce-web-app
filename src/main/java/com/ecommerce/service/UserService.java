@@ -34,10 +34,10 @@ public class UserService {
 
     public User loginUser(UserRequestDto dto) throws EmailAndPasswordNotFoundException {
         User user = userRepository.findByEmail(dto.getEmail())
-                .orElseThrow(() -> new EmailAndPasswordNotFoundException("Invalid email or password"));
+                .orElseThrow(() -> new EmailAndPasswordNotFoundException("Invalid email"));
 
         if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid email or password");
+            throw new EmailAndPasswordNotFoundException("Invalid password");
         }
 
         return user;
@@ -76,5 +76,8 @@ public class UserService {
 
         return true;
     }
+
+
+
 
 }
