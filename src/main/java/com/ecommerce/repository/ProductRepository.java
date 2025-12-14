@@ -1,0 +1,22 @@
+package com.ecommerce.repository;
+
+import com.ecommerce.model.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
+
+    List<Product> findByIsActiveTrueAndProductNameContainingIgnoreCaseOrIsActiveTrueAndDescriptionContainingIgnoreCase(
+            String nameKeyword, String descKeyWord
+    );
+
+    List<Product> findByIsActiveTrueAndCategoryIgnoreCaseAndPriceBetween(
+            String category, double minPrice, double maxprice
+    );
+
+    List<Product> findByIsActiveTrueAndPriceBetween(double minPrice, double maxPrice);
+
+    List<Product> findByIsActiveTrueAndStockGreaterThan(long stock);
+
+}
