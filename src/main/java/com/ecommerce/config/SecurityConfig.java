@@ -33,12 +33,14 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())                       // APIs use tokens, disable CSRF
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/api/users/register", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/users/register", "/swagger-ui/**",
+                                "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/products/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )
-                .exceptionHandling(e -> e.authenticationEntryPoint((req, res, ex) -> {
-                    res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                }));
+                .exceptionHandling(e -> e.authenticationEntryPoint(
+                        (req, res, ex) -> res.setStatus(HttpServletResponse.SC_UNAUTHORIZED)));
 
         // place JWT filter before UsernamePasswordAuthenticationFilter
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
